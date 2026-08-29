@@ -5,15 +5,137 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>How to Play the Game</title>
   </head>
-  <body>
-    <h1>How to Play the Game</h1>
-		<nav>
-			<ul>
-				<li><a href="index.html">Arcana Antiqua</a></li>
-				<li><a href="origins.html">Origins</a></li>
-				<li><a href="evolution.html">Evolution</a></li>
-				<li><a href="today.html">Today</a></li>
-			</ul>
-		</nav>
-  </body>
+
+  <main>
+		<header>
+			<a href="index.html"><h1>Arcana Antiqua</h1></a>
+			<nav>
+				<ul>
+					<li><a href="origins.html">Origins</a></li>
+					<li><a href="evolution.html">Evolution</a></li>
+					<li><a href="today.html">Today</a></li>
+				</ul>
+			</nav>
+		</header>
+
+		<body>
+    	<article class="game-mechanics">
+        <section id="overview-objective">
+					<h1>How to Play Classic Italian Tarocchi</h1>
+					<h2>Overview and Objective</h2>
+					<p>Tarocchi is a competitive, strategic trick-taking card game designed for three players. Developed during the Renaissance, it serves as the direct ancestor to modern card games like Spades, Hearts, and Bridge.</p>
+            <ul>
+							<li><strong>The Objective:</strong> Capture tricks (rounds of cards) throughout the game that contain high-value scoring cards.</li>
+							<li><strong>The Core Mechanic:</strong> The 22 cards of the Major Arcana do not have traditional suit affiliations. Instead, they act as permanent trump cards that outrank all standard suited cards.</li>
+            </ul>
+        </section>
+
+        <section id="suit-hierarchies">
+					<h2>Suit Hierarchies and Card Rankings</h2>
+					<p>To play correctly, players must understand that the four suits do not rank identically. The Court cards always rank highest, but the numerical "pip" cards alter their behavior based on the shape of their suit symbol.</p>
+					
+					<h3>Court Cards (Highest in All Suits)</h3>
+					<p>In every suit, the face cards rank from highest to lowest:</p>
+            <ol>
+							<li>King (Re)</li>
+							<li>Queen (Regina)</li>
+							<li>Knight (Cavalieri)</li>
+							<li>Page / Jack (Fanti)</li>
+            </ol>
+
+					<h3>Long Suits: Swords and Batons</h3>
+					<p>The numerical cards in these suits follow standard mathematical order:</p>
+            <ul>
+							<li><strong>Highest to Lowest:</strong> 10, 9, 8, 7, 6, 5, 4, 3, 2, 1.</li>
+            </ul>
+
+					<h3>Round Suits: Cups and Coins</h3>
+					<p>The numerical cards in these suits follow an inverted ranking system:</p>
+            <ul>
+							<li><strong>Highest to Lowest:</strong> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10. <em>(The 1-pip card outranks the 10-pip card).</em></li>
+            </ul>
+        </section>
+
+        <section id="scoring-values">
+					<h2>Scoring Values</h2>
+					<p>Victory is determined by the total point value of the cards you capture in your tricks, not by the sheer quantity of tricks won.</p>
+					
+					<h3>The Five "Honors" (5 Points Each)</h3>
+					<p>These milestone cards carry the highest weight in the deck:</p>
+            <ol>
+							<li>The Angel / Judgment (Trump 20)</li>
+							<li>The World (Trump 21)</li>
+							<li>The Fool (Unnumbered / The Excuse)</li>
+							<li>The Kings (All four suits)</li>
+            </ol>
+
+					<h3>Remaining Card Values:</h3>
+            <ul>
+							<li><strong>Queens:</strong> 4 points each</li>
+							<li><strong>Knights:</strong> 3 points each</li>
+							<li><strong>Pages / Jacks:</strong> 2 points each</li>
+							<li><strong>All Low Trumps &amp; Pip Cards:</strong> 1 point each</li>
+            </ul>
+
+					<p><em><strong>Historical Scoring Note:</strong> In traditional tournament play, cards are calculated in groups of three, where custom point values are subtracted to prevent inflation. For simplicity, this guide utilizes the standardized absolute point matrix totaling 120 points across the entire deck.</em></p>
+        </section>
+
+        <section id="deal-and-stock">
+					<h2>Deal and Stock</h2>
+            <ol>
+							<li>Utilize a complete, traditional 78-card deck (such as an optimized public domain Rider-Waite-Smith set).</li>
+							<li>The dealer shuffles the deck thoroughly and deals 25 cards to each of the three players.</li>
+							<li>The remaining 3 cards are placed face down in the center of the table. This cluster is known as the Stock (or Monte).</li>
+            </ol>
+        </section>
+
+        <section id="bidding-phase">
+					<h2>Bidding Phase</h2>
+					<p>Before card play begins, players audit their hands to determine if they will attempt a solo run against a defensive alliance.</p>
+            <ol>
+							<li>Starting with the dealer, each player reviews their cards and declares either "Play" or "Pass."</li>
+							<li>The first player to declare "Play" becomes the Soloist. The remaining two players immediately form a temporary alliance, pooling their captured tricks to stop the Soloist from succeeding.</li>
+							<li>The Soloist picks up the 3 face-down cards from the center Stock, integrates them into their hand, and then selects any 3 cards from their hand to discard face down into their personal scoring pile.
+								<ul>
+									<li><strong>The Discard Restriction:</strong> The Soloist is strictly forbidden from discarding a King or a high-ranking Trump card.</li>
+								</ul>
+							</li>
+            </ol>
+        </section>
+
+        <section id="gameplay-rules">
+					<h2>Rules</h2>
+					<p>The player to the immediate left of the dealer leads the first card. Play continues clockwise around the table.</p>
+            <ul>
+							<li><strong>Rule 1: You Must Follow Suit.</strong> If the opening player leads with a card from the Suit of Cups, all subsequent players must play a card from the suit of Cups if they possess one.</li>
+							<li><strong>Rule 2: Cutting with Trump.</strong> If a player&apos;s hand is completely empty of the led suit, they must play a Trump card (Major Arcana). Trump cards automatically beat standard suited cards. If multiple trumps are played to a single trick, the highest-numbered trump wins.</li>
+							<li><strong>Rule 3: Discarding Safely.</strong> If a player has neither the led suit nor any remaining Trump cards, they may discard any card from their hand. This card is dead and cannot win the trick, even if its numerical face value is high.</li>
+							<li><strong>Rule 4: Claiming the Trick.</strong> The trick is claimed by the highest card of the suit originally led, or by the highest Trump card deployed. The winner collects the cards, stacks them face down in their team&apos;s point pile, and leads the next card.</li>
+            </ul>
+
+					<h3>Special Rule of the Fool (The Excuse)</h3>
+					<p>The Fool (Card 0) acts as a unique wildcard with defensive properties:</p>
+            <ul>
+							<li>The Fool can be played during any turn, regardless of the suit led or whether the player has cards matching that suit.</li>
+							<li>The Fool can never win a trick.</li>
+							<li>Instead of surrendering the Fool to the winner of the round, the player simply places the Fool directly into their own scoring pile. To balance the trick, they give a worthless 1-point pip card from their collection to the player who actually won the trick.</li>
+            </ul>
+        </section>
+
+        <section id="scoring-tally">
+					<h2>Tallying the Final Score</h2>
+					<p>Once all 25 tricks are cleared from the table, players count the mathematical points hidden within their captured cards.</p>
+            <ul>
+							<li>The Soloist adds the 3 cards they originally discarded from the Stock into their final pile.</li>
+							<li>The total point value of the entire deck equals 120 points.</li>
+							<li>To secure a victory, the Soloist must capture 61 points or more. If the Soloist scores 60 points or fewer, the defensive alliance wins the round.</li>
+            </ul>
+        </section>
+    	</article>
+		</body>
+
+		</footer>
+			<p>&copy; 2026 Arcana Antiqua. All rights reserved.</p>
+		</footer>
+	</main>
 </html>
