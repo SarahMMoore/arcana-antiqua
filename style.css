@@ -1,0 +1,401 @@
+/* ==========================================================================
+   1. ROOT VARIABLES & THEME PALETTE
+   ========================================================================== */
+@import url('https://fonts.googleapis.com/css2?family=IM+Fell+Great+Primer+SC&family=IM+Fell+Great+Primer:ital@0;1&family=Lora:ital,wght@0,400..700;1,400..700&display=swap');
+
+:root {
+  /* Font Family Definitions */
+  --font-heading: 'IM Fell Great Primer SC', serif;
+  --font-accent-serif: 'IM Fell Great Primer', serif;
+  --font-body: 'Lora', Georgia, serif;
+
+  /* Vintage Scriptorium Palette Theme */
+  --bg-primary: #F9F6F0;       /* Vintage Warm Cream (Main Canvas) */
+  --bg-secondary: #EFECE6;     /* Muted Parchment (Panels, Nav, Struct Blocks) */
+  --text-primary: #2B2B2A;     /* High-Contrast Charcoal (Clear Body Copy) */
+  --text-muted: #5F5F5E;       /* Faded Ink (Subtitles, Borders, Captions) */
+  --accent-primary: #1C352D;   /* Deep Forest Jade (Headings, Branding Links) */
+  --accent-warm: #D9822B;      /* Canyon Amber (Interactive Hover, Focus States) */
+
+ 
+}
+
+/* ==========================================================================
+   2. LAYOUT & STRUCTURAL CONTAINERS
+   ========================================================================== */
+
+main {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 6rem 2rem;
+}
+body {
+  font-family: var(--font-body);
+  color: var(--text-primary);
+  background-color: var(--bg-primary);
+}
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  color: var(--accent-primary);
+}
+
+.global-parchment-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    
+    /* References your specific Petrarch illustration from your directory images */
+    background-image: url('https://upload.wikimedia.org/wikipedia/commons/5/51/Petrarch-triumph-vainglory-bnf-lat-6069F-detail.jpg?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=original');
+    background-size: cover;
+    background-position: right 15% top 10%; /* Anchors the card artwork off-center to the upper right */
+    background-repeat: no-repeat;
+    
+    /* Slightly scaled and rotated to mimic an artifact dropped onto the workbench */
+    transform: rotate(3deg) scale(1.08);
+    opacity: 0.75; /* Lowered opacity ensures your high-contrast body text stays completely legible */
+    mix-blend-mode: multiply; /* Fuses the ink sketch fibers seamlessly into your Vintage Warm Cream canvas */
+    pointer-events: none; /* Allows mouse behaviors to pass through layout elements to buttons below */
+    z-index: -1; /* Pushes art safely behind all content and navigation interaction cards */
+}
+
+
+/* Ensures your introductory text elevates cleanly above the visual backdrop layers */
+.site-description {
+    position: relative;
+    text-align: left;
+    max-width: 520px; /* Constrains the reading line width so it never overlaps crowded lines in the art */
+    margin: 0;
+    z-index: 3;
+    background-color: var(--bg-secondary);
+    border: 1px solid rgba(95, 95, 94, 0.2); /* Subtle Faded Ink border */
+    border-radius: 4px;
+    padding: 2rem;
+    text-decoration: none;
+    color: inherit;
+}
+
+.site-description h1 {
+    font-size: 3.6rem;
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    color: var(--accent-primary); /* Deep Forest Jade */
+}
+
+.site-description p {
+    font-size: 1.15rem;
+    line-height: 1.8;
+    color: var(--text-primary); /* High-Contrast Charcoal */
+}
+/* Center-aligned intro narrative style */
+.site-description {
+    text-align: center;
+    max-width: 750px;
+    margin: 0 auto 5rem auto;
+}
+
+.site-description h1 {
+    font-size: 3.5rem;
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    letter-spacing: 2px;
+}
+
+.site-description p {
+    font-size: 1.25rem;
+    line-height: 1.8;
+    color: var(--text-primary);
+}
+
+/* ==========================================================================
+   3. CARD PORTAL NAVIGATION GRID (BUTTON INTERFACES)
+   ========================================================================== */
+
+.card-grid {
+    display: grid;
+    /* This rule automatically creates a perfect 3-column layout on desktops */
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2.5rem;
+    margin-bottom: 4rem;
+}
+
+/* Base card styling that matches parchment block aesthetics */
+.portal-card {
+    background-color: var(--bg-secondary);
+    border: 1px solid rgba(95, 95, 94, 0.2); /* Subtle Faded Ink border */
+    border-radius: 4px;
+    padding: 2rem;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+/* Hover effect shifting colors to Canyon Amber */
+.portal-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--accent-warm);
+    box-shadow: 0 8px 20px rgba(217, 130, 43, 0.08);
+}
+
+.portal-card h2 {
+    font-size: 1.6rem;
+    margin-top: 0;
+    margin-bottom: 1rem;
+    letter-spacing: 1px;
+    transition: color 0.25s ease;
+}
+
+.portal-card:hover h2 {
+    color: var(--accent-warm);
+}
+
+.portal-card p {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--text-muted);
+    margin: 0 0 1.5rem 0;
+}
+
+/* Button prompt text at the bottom of the card */
+.card-action {
+    font-family: var(--font-accent-serif);
+    font-style: italic;
+    font-size: 0.95rem;
+    color: var(--accent-primary);
+    font-weight: bold;
+    margin-top: auto;
+    transition: color 0.25s ease;
+}
+
+.portal-card:hover .card-action {
+    color: var(--accent-warm);
+}
+
+
+/* ==========================================================================
+   4. ACADEMIC & CITATION FOOTER LAYOUT
+   ========================================================================== */
+
+footer {
+    border-top: 1px solid rgba(95, 95, 94, 0.2);
+    padding: 3rem 2rem;
+    background-color: var(--bg-secondary);
+    margin-top: auto;
+}
+
+.footer-content {
+    max-width: 1000px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+/* Makes footer layouts sit on opposite sides on desktop viewports */
+@media (min-width: 768px) {
+    .footer-content {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+}
+
+.footer-links {
+    display: flex;
+    gap: 2rem;
+}
+
+.footer-links a {
+    font-family: var(--font-accent-serif);
+    font-style: italic;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 1rem;
+    transition: color 0.2s ease;
+}
+
+.footer-links a:hover {
+    color: var(--accent-warm);
+}
+
+.copyright {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin: 0;
+}
+
+/* ==========================================================================
+   8. SINGLE WORKSPACE STRUCTURE
+   ========================================================================== */
+.state-radio {
+    display: none !important;
+}
+
+.deck-layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 30px;
+}
+
+@media (min-width: 768px) {
+    .deck-layout {
+        grid-template-columns: 280px 1fr;
+    }
+}
+
+.selector-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-height: 520px;
+    overflow-y: auto;
+    padding-right: 12px;
+}
+
+.selector-menu label {
+    font-family: var(--font-accent-serif);
+    font-size: 1.1rem;
+    background-color: var(--bg-secondary);
+    border: 1px solid rgba(95, 95, 94, 0.2);
+    padding: 14px 18px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.selector-menu label:hover {
+    border-color: var(--accent-warm);
+    color: var(--accent-warm);
+}
+
+.display-frame {
+    background-color: var(--bg-secondary);
+    border: 1px solid rgba(95, 95, 94, 0.3);
+    border-radius: 4px;
+    padding: 2.5rem;
+    min-height: 520px;
+}
+
+.tarot-card {
+    display: none;
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+}
+
+@media (min-width: 640px) {
+    .tarot-card {
+        grid-template-columns: 220px 1fr;
+    }
+}
+
+.card-image-wrapper {
+    width: 100%;
+    height: 330px;
+    overflow: hidden;
+    border-radius: 4px;
+    border: 1px solid rgba(95, 95, 94, 0.3);
+    background-color: var(--bg-primary);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.placeholder-wrapper {
+    background: linear-gradient(135deg, #efece6, #dfdbd3);
+    border: 1px dashed rgba(95, 95, 94, 0.4);
+}
+
+.placeholder-glyph {
+    font-size: 4rem;
+    opacity: 0.5;
+}
+
+.tarot-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.card-visual h2 {
+    font-size: 1.6rem;
+    margin: 1.5rem 0 0.25rem 0;
+    text-align: center;
+}
+
+.card-number {
+    font-family: var(--font-accent-serif);
+    font-style: italic;
+    color: var(--accent-warm);
+    display: block;
+    text-align: center;
+}
+
+.card-details h3 {
+    font-size: 1.4rem;
+    border-bottom: 1px solid rgba(95, 95, 94, 0.2);
+    padding-bottom: 6px;
+    margin-bottom: 1rem;
+}
+
+.card-details h3:not(:first-child) {
+    margin-top: 2rem;
+}
+
+.attributes-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.attribute-tag {
+    font-family: var(--font-accent-serif);
+    font-style: italic;
+    background-color: var(--bg-primary);
+    border: 1px solid rgba(95, 95, 94, 0.3);
+    color: var(--accent-primary);
+    padding: 6px 14px;
+    border-radius: 4px;
+    font-weight: bold;
+}
+
+.selector-menu .btn-clear {
+    border: 1px dashed rgba(95, 95, 94, 0.4);
+    color: var(--text-muted);
+}
+
+/* --------------------------------------------------------------------------
+   STATE CONTROLLER COUPLING ROUTERS
+-------------------------------------------------------------------------- */
+#card-clear:checked ~ .deck-layout .frame-clear,
+#card-00:checked ~ .deck-layout .frame-00,
+#card-01:checked ~ .deck-layout .btn-01,
+#card-02:checked ~ .deck-layout .frame-02,
+#card-03:checked ~ .deck-layout .frame-03,
+#card-04:checked ~ .deck-layout .frame-04,
+#card-05:checked ~ .deck-layout .frame-05,
+#card-06:checked ~ .deck-layout .frame-06,
+#card-07:checked ~ .deck-layout .frame-07,
+#card-08:checked ~ .deck-layout .frame-08,
+#card-09:checked ~ .deck-layout .frame-09,
+#card-10:checked ~ .deck-layout .frame-10 { display: grid; }
+
+#card-clear:checked ~ .deck-layout .btn-clear,
+#card-00:checked ~ .deck-layout .btn-00,
+#card-01:checked ~ .deck-layout .btn-01,
+#card-02:checked ~ .deck-layout .btn-02,
+#card-03:checked ~ .deck-layout .btn-03,
+#card-04:checked ~ .deck-layout .btn-04,
+#card-05:checked ~ .deck-layout .btn-05,
+#card-06:checked ~ .deck-layout .btn-06,
+#card-07:checked ~ .deck-layout .btn-07,
+#card-08:checked ~ .deck-layout .btn-08,
+#card-09:checked ~ .deck-layout .btn-09,
+#card-10:checked ~ .deck-layout .btn-10 {
+    background-color: var(--accent-primary);
+    color: var(--bg-primary);
+    border-color: var(--accent-primary);
+}
