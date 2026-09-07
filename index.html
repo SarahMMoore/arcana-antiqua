@@ -1,20 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Arcana Antiqua</title>
-	<link rel="stylesheet" href="style.css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arcana Antiqua</title>
+    <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-	<main>
-        <!-- A fixed structural block to hold the layout background independent of text scrolling -->
+    <!-- 1. NAVIGATION BANNER PATTERN  -->
+    <header class="site-header">
+        <div class="header-container">
+            <a href="index.html" class="logo-link">
+                <span class="site-logo">Arcana Antiqua</span>
+            </a>
+            <nav class="site-nav">
+                <ul>
+                    <li><a href="index.html" class="nav-link active">Home</a></li>
+                    <li><a href="origins/origins.html" class="nav-link">Origins</a></li>
+                    <li><a href="tarocchi/tarocchi.html" class="nav-link">Tarocchi</a></li>
+                    <li><a href="evolution/evolution.html" class="nav-link">Evolution</a></li>
+                    <li><a href="practice/practice.html" class="nav-link">Practice Spread</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- 2. GLOBAL VISUAL BACKDROP  -->
     <div class="global-parchment-backdrop"></div>
 
+    <!-- 3. MAIN STRUCTURAL LAYOUT CONTAINER -->
     <main>
-        <!-- Cleaned site introduction overview -->
+        
+        <!-- HERO INTRO PANEL PATTERN -->
         <section class="site-description">
             <h1>Arcana Antiqua</h1>
             <p>
@@ -22,56 +40,48 @@
             </p>
         </section>
 
-
-        <!-- Navigation grid system using your exact file naming conventions -->
+        <!-- PORTAL GRID INTERFACE PATTERN -->
         <section class="card-grid">
-
-            <!-- Card Link 1: origins.html -->
-            <a href="origins.html" class="portal-card">
+            <a href="origins/origins.html" class="portal-card">
                 <h2>The Genesis of Play</h2>
                 <p>Inside this section: Discover how printing trickled into early European society, featuring structural breakdowns of historical leaf card games and foundational playing suits.</p>
-                <span class="card-action">Open Chapter &rarr;</span>
+                <span class="card-action">Chapter One &rarr;</span>
             </a>
 
-            <!-- Card Link 2: tarocchi.html -->
-            <a href="tarocchi.html" class="portal-card">
+            <a href="tarocchi/tarocchi.html" class="portal-card">
                 <h2>Renaissance Tarocchi</h2>
                 <p>Inside this section: Explore the luxury, hand-painted courts of Northern Italy, the introduction of the Visconti-Sforza trumps, and early parlor game rules.</p>
-                <span class="card-action">Open Chapter &rarr;</span>
+                <span class="card-action">Chapter Two &rarr;</span>
             </a>
 
-            <!-- Card Link 3: tarot.html -->
-            <a href="tarot.html" class="portal-card">
+            <a href="evolution/evolution.html" class="portal-card">
                 <h2>The Esoteric Shift</h2>
                 <p>Inside this section: Examine how structural card frames shifted from a secular gaming pastime into complex blueprints for mysticism and global divination models.</p>
-                <span class="card-action">Open Chapter &rarr;</span>
+                <span class="card-action">Chapter Three &rarr;</span>
             </a>
 
-            <!-- Card Link 4: evolution.html -->
-            <a href="evolution.html" class="portal-card">
+            <a href="tarot/tarot.html" class="portal-card">
                 <h2>Mass Production</h2>
                 <p>Inside this section: Uncover the arrival of the standardized Rider-Waite template, mid-century countercultures, and Carl Jung's psychological mapping of the collective subconscious.</p>
-                <span class="card-action">Open Chapter &rarr;</span>
+                <span class="card-action">Chapter Four &rarr;</span>
             </a>
 
-            <!-- Card Link 5: today.html -->
-            <a href="today.html" class="portal-card">
+            <a href="today/today.html" class="portal-card">
                 <h2>Generative Systems</h2>
                 <p>Inside this section: Investigate the modern computer science frontier of the deck, exploring how artificial intelligence models ingest, map, and translate historical visual lore.</p>
-                <span class="card-action">Open Chapter &rarr;</span>
+                <span class="card-action">Chapter Five &rarr;</span>
             </a>
 
-						<!-- Card Link 6: practice.html (Your Custom Sibling Selector Oracle Interface) -->
-            <a href="practice.html" class="portal-card">
+            <a href="practice/practice.html" class="portal-card">
                 <h2>Practice Spread</h2>
-                <p>Inside this section: Test your focus with a three-card layout simulation. Experiment with our scriptless past, present, and future oracle selector state engine.</p>
-                <span class="card-action">Open Portal &rarr;</span>
+                <p>Inside this section: Learn your associations and meanings. Use your own deck and pull a card. See a version of the Rider-Waite its associated meanings and other attributes of the major Arcana.</p>
+                <span class="card-action">Practice a One-Card Layout &rarr;</span>
             </a>
-
         </section>
+        
     </main>
 
-    <!-- Headerless layout footer including your copyright text and citation anchors -->
+    <!-- 4. ACADEMIC FOOTER CONTAINER PATTERN -->
     <footer>
         <div class="footer-content">
             <p class="copyright">&copy; 2026 Arcana Antiqua. All research and historical records reserved.</p>
