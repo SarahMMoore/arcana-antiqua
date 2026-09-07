@@ -1,127 +1,196 @@
 /* ==========================================================================
+   CSS ARCHITECTURE CASCADE STRATEGY
+   ========================================================================== */
+@layer reset, base, layout, components, utilities, states;
+
+/* ==========================================================================
    1. ROOT VARIABLES & THEME PALETTE
    ========================================================================== */
-@import url('https://fonts.googleapis.com/css2?family=IM+Fell+Great+Primer+SC&family=IM+Fell+Great+Primer:ital@0;1&family=Lora:ital,wght@0,400..700;1,400..700&display=swap');
+@layer base {
+  @import url('https://fonts.googleapis.com/css2?family=IM+Fell+Great+Primer+SC&family=IM+Fell+Great+Primer:ital@0;1&family=Lora:ital,wght@0,400..700;1,400..700&display=swap');
 
-:root {
-  /* Font Family Definitions */
-  --font-heading: 'IM Fell Great Primer SC', serif;
-  --font-accent-serif: 'IM Fell Great Primer', serif;
-  --font-body: 'Lora', Georgia, serif;
+  :root {
+    /* Font Family Definitions */
+    --font-heading: 'IM Fell Great Primer SC', serif;
+    --font-accent-serif: 'IM Fell Great Primer', serif;
+    --font-body: 'Lora', Georgia, serif;
 
-  /* Vintage Scriptorium Palette Theme */
-  --bg-primary: #F9F6F0;       /* Vintage Warm Cream (Main Canvas) */
-  --bg-secondary: #EFECE6;     /* Muted Parchment (Panels, Nav, Struct Blocks) */
-  --text-primary: #2B2B2A;     /* High-Contrast Charcoal (Clear Body Copy) */
-  --text-muted: #5F5F5E;       /* Faded Ink (Subtitles, Borders, Captions) */
-  --accent-primary: #1C352D;   /* Deep Forest Jade (Headings, Branding Links) */
-  --accent-warm: #D9822B;      /* Canyon Amber (Interactive Hover, Focus States) */
+    /* Vintage Scriptorium Palette Theme */
+    --bg-primary: #F9F6F0;       /* Vintage Warm Cream (Main Canvas) */
+    --bg-secondary: #EFECE6;     /* Muted Parchment (Panels, Nav, Struct Blocks) */
+    --text-primary: #2B2B2A;     /* High-Contrast Charcoal (Clear Body Copy) */
+    --text-muted: #5F5F5E;       /* Faded Ink (Subtitles, Borders, Captions) */
+    --accent-primary: #1C352D;   /* Deep Forest Jade (Headings, Branding Links) */
+    --accent-warm: #D9822B;      /* Canyon Amber (Interactive Hover, Focus States) */
+  }
 
- 
+  body {
+    font-family: var(--font-body);
+    color: var(--text-primary);
+    background-color: var(--bg-primary);
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    color: var(--accent-primary);
+  }
+
+  /* Accessibility keyboard parameter required by assignment rubric */
+  *:focus-visible {
+    outline: 2px dashed var(--accent-warm);
+    outline-offset: 4px;
+  }
 }
 
 /* ==========================================================================
    2. LAYOUT & STRUCTURAL CONTAINERS
    ========================================================================== */
+@layer layout {
+  /* Sticky Header Structural Wrapper */
+  .site-header {
+    background-color: var(--bg-secondary); /* Muted Parchment */
+    border-bottom: 2px solid var(--text-muted); /* Faded Ink border line */
+    padding: 15px 0; /* Lock to top of viewport */
+    position: sticky;
+    top: 0;
+    z-index: 1000; /* Keeps navigation floating smoothly over scrolling text */
+  }
 
-main {
+  /* Container limits width and centers content */
+  .header-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+  }
+
+  main {
     max-width: 1000px;
     margin: 0 auto;
     padding: 6rem 2rem;
-}
-body {
-  font-family: var(--font-body);
-  color: var(--text-primary);
-  background-color: var(--bg-primary);
-}
-h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-heading);
-  color: var(--accent-primary);
-}
+  }
 
-.global-parchment-backdrop {
+  .global-parchment-backdrop {
     position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
-    
-    /* References your specific Petrarch illustration from your directory images */
+
     background-image: url('https://upload.wikimedia.org/wikipedia/commons/5/51/Petrarch-triumph-vainglory-bnf-lat-6069F-detail.jpg?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=original');
     background-size: cover;
     background-position: right 15% top 10%; /* Anchors the card artwork off-center to the upper right */
-    background-repeat: no-repeat;
-    
-    /* Slightly scaled and rotated to mimic an artifact dropped onto the workbench */
-    transform: rotate(3deg) scale(1.08);
+    background-repeat: no-repeat; /* Slightly scaled and rotated to mimic an artifact dropped onto the workbench */
+    transform: scale(1.1);
     opacity: 0.75; /* Lowered opacity ensures your high-contrast body text stays completely legible */
     mix-blend-mode: multiply; /* Fuses the ink sketch fibers seamlessly into your Vintage Warm Cream canvas */
     pointer-events: none; /* Allows mouse behaviors to pass through layout elements to buttons below */
     z-index: -1; /* Pushes art safely behind all content and navigation interaction cards */
+  }
+
+  /* Card Portal Navigation Grid (Button Interfaces) */
+  .card-grid {
+    display: grid; /* This rule automatically creates a perfect 3-column layout on desktops */
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2.5rem;
+    margin-bottom: 4rem;
+  }
+
+  /* Single Workspace Deck Layout Wrapper */
+  .deck-layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+
+  @media (min-width: 768px) {
+    .deck-layout {
+      grid-template-columns: 280px 1fr;
+    }
+  }
 }
 
+/* ==========================================================================
+   3. COMPONENT PATTERNS
+   ========================================================================== */
+@layer components {
+/* --- PATTERN 1: NAVIGATION & BRANDING BANNER --- */
+.logo-link {
+  text-decoration: none;
+}
 
-/* Ensures your introductory text elevates cleanly above the visual backdrop layers */
-.site-description {
-    position: relative;
-    text-align: left;
-    max-width: 520px; /* Constrains the reading line width so it never overlaps crowded lines in the art */
-    margin: 0;
-    z-index: 3;
+.site-logo {
+  font-family: var(--font-heading); /* IM Fell Great Primer SC */
+  font-size: 1.8rem;
+  color: var(--accent-primary); /* Deep Forest Jade */
+  letter-spacing: 1px;
+}
+
+.site-nav ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  gap: 30px; /* Generous spacing for historical typography layout */
+}
+
+.nav-link {
+  font-family: var(--font-accent-serif); /* IM Fell Great Primer */
+  color: var(--text-primary); /* High-Contrast Charcoal */
+  text-decoration: none;
+  font-size: 1.1rem;
+  font-weight: 500;
+  padding: 5px 0;
+  transition: color 0.2s ease, border-color 0.2s ease;
+  border-bottom: 2px solid transparent; /* Invisible baseline preventing structural layout shifting on hover */
+}
+
+/* Responsive Mobile Header Fix for small screens (e.g. 320px) */
+@media (max-width: 768px) {
+  .header-container {
+    flex-direction: column;   /* Stacks the logo above the menu navigation links */
+    gap: 15px;
+    text-align: center;
+    padding: 10px;
+  }
+
+  .site-nav ul {
+    flex-wrap: wrap;          /* Gracefully drops links to a second row instead of colliding */
+    justify-content: center;  /* Aligns wrapped rows symmetrically */
+    gap: 10px 20px;           /* Tightens spacing for mobile viewports */
+  }
+}
+
+  /* --- PATTERN 2: HERO INTRO DESCRIPTION PANEL --- */
+  .site-description {
+    text-align: center;
+    max-width: 750px;
+    margin: 0 auto 5rem auto;
     background-color: var(--bg-secondary);
     border: 1px solid rgba(95, 95, 94, 0.2); /* Subtle Faded Ink border */
     border-radius: 4px;
     padding: 2rem;
     text-decoration: none;
     color: inherit;
-}
+  }
 
-.site-description h1 {
-    font-size: 3.6rem;
-    margin-top: 0;
-    margin-bottom: 1.5rem;
-    color: var(--accent-primary); /* Deep Forest Jade */
-}
-
-.site-description p {
-    font-size: 1.15rem;
-    line-height: 1.8;
-    color: var(--text-primary); /* High-Contrast Charcoal */
-}
-/* Center-aligned intro narrative style */
-.site-description {
-    text-align: center;
-    max-width: 750px;
-    margin: 0 auto 5rem auto;
-}
-
-.site-description h1 {
+  .site-description h1 {
     font-size: 3.5rem;
     margin-top: 0;
     margin-bottom: 1.5rem;
     letter-spacing: 2px;
-}
+  }
 
-.site-description p {
+  .site-description p {
     font-size: 1.25rem;
     line-height: 1.8;
     color: var(--text-primary);
-}
+  }
 
-/* ==========================================================================
-   3. CARD PORTAL NAVIGATION GRID (BUTTON INTERFACES)
-   ========================================================================== */
-
-.card-grid {
-    display: grid;
-    /* This rule automatically creates a perfect 3-column layout on desktops */
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 2.5rem;
-    margin-bottom: 4rem;
-}
-
-/* Base card styling that matches parchment block aesthetics */
-.portal-card {
+  /* --- PATTERN 3: PARCHMENT PORTAL CARDS --- */
+  .portal-card {
     background-color: var(--bg-secondary);
     border: 1px solid rgba(95, 95, 94, 0.2); /* Subtle Faded Ink border */
     border-radius: 4px;
@@ -132,36 +201,24 @@ h1, h2, h3, h4, h5, h6 {
     flex-direction: column;
     justify-content: space-between;
     transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
-}
+  }
 
-/* Hover effect shifting colors to Canyon Amber */
-.portal-card:hover {
-    transform: translateY(-4px);
-    border-color: var(--accent-warm);
-    box-shadow: 0 8px 20px rgba(217, 130, 43, 0.08);
-}
-
-.portal-card h2 {
+  .portal-card h2 {
     font-size: 1.6rem;
     margin-top: 0;
     margin-bottom: 1rem;
     letter-spacing: 1px;
     transition: color 0.25s ease;
-}
+  }
 
-.portal-card:hover h2 {
-    color: var(--accent-warm);
-}
-
-.portal-card p {
+  .portal-card p {
     font-size: 1rem;
     line-height: 1.6;
     color: var(--text-muted);
     margin: 0 0 1.5rem 0;
-}
+  }
 
-/* Button prompt text at the bottom of the card */
-.card-action {
+  .card-action {
     font-family: var(--font-accent-serif);
     font-style: italic;
     font-size: 0.95rem;
@@ -169,94 +226,46 @@ h1, h2, h3, h4, h5, h6 {
     font-weight: bold;
     margin-top: auto;
     transition: color 0.25s ease;
-}
+  }
 
-.portal-card:hover .card-action {
-    color: var(--accent-warm);
-}
-
-
-/* ==========================================================================
-   4. ACADEMIC & CITATION FOOTER LAYOUT
-   ========================================================================== */
-
-footer {
-    border-top: 1px solid rgba(95, 95, 94, 0.2);
-    padding: 3rem 2rem;
-    background-color: var(--bg-secondary);
-    margin-top: auto;
-}
-
-.footer-content {
-    max-width: 1000px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1.5rem;
-}
-
-/* Makes footer layouts sit on opposite sides on desktop viewports */
-@media (min-width: 768px) {
-    .footer-content {
-        flex-direction: row;
-        justify-content: space-between;
+    /* --- STORY TEXT CONTAINER PATTERN --- */
+    .story-text-container {
+    background-color: var(--bg-secondary); /* Matches your Muted Parchment block color */
+    border: 1px solid rgba(95, 95, 94, 0.25); /* Faded Ink border edge */
+    border-radius: 4px;
+    padding: 2.5rem;
+    margin: 2rem 0;
+    box-shadow: 0 4px 15px rgba(43, 43, 42, 0.03); /* Subtle dark container lift */
     }
-}
 
-.footer-links {
-    display: flex;
-    gap: 2rem;
-}
-
-.footer-links a {
-    font-family: var(--font-accent-serif);
-    font-style: italic;
-    color: var(--text-muted);
-    text-decoration: none;
-    font-size: 1rem;
-    transition: color 0.2s ease;
-}
-
-.footer-links a:hover {
-    color: var(--accent-warm);
-}
-
-.copyright {
-    font-size: 0.9rem;
-    color: var(--text-muted);
-    margin: 0;
-}
-
-/* ==========================================================================
-   8. SINGLE WORKSPACE STRUCTURE
-   ========================================================================== */
-.state-radio {
-    display: none !important;
-}
-
-.deck-layout {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 30px;
-}
-
-@media (min-width: 768px) {
-    .deck-layout {
-        grid-template-columns: 280px 1fr;
+    /* Enhances readability of headings and copy nested inside the block */
+    .story-text-container h1, 
+    .story-text-container h2 {
+    margin-top: 0;
+    margin-bottom: 1.5rem;
     }
-}
 
-.selector-menu {
+    .story-text-container p {
+    line-height: 1.8;
+    color: var(--text-primary);
+    margin-bottom: 1.5rem;
+    }
+
+    .story-text-container p:last-child {
+    margin-bottom: 0; /* Cleans up whitespace clipping */
+    }
+
+  /* --- PATTERN 4: SINGLE WORKSPACE DECK SELECTOR PANEL --- */
+  .selector-menu {
     display: flex;
     flex-direction: column;
     gap: 10px;
     max-height: 520px;
     overflow-y: auto;
     padding-right: 12px;
-}
+  }
 
-.selector-menu label {
+  .selector-menu label {
     font-family: var(--font-accent-serif);
     font-size: 1.1rem;
     background-color: var(--bg-secondary);
@@ -265,34 +274,35 @@ footer {
     border-radius: 4px;
     cursor: pointer;
     transition: all 0.25s ease;
-}
+  }
 
-.selector-menu label:hover {
-    border-color: var(--accent-warm);
-    color: var(--accent-warm);
-}
+  .selector-menu .btn-clear {
+    border: 1px dashed rgba(95, 95, 94, 0.4);
+    color: var(--text-muted);
+  }
 
-.display-frame {
+  .display-frame {
     background-color: var(--bg-secondary);
     border: 1px solid rgba(95, 95, 94, 0.3);
     border-radius: 4px;
     padding: 2.5rem;
     min-height: 520px;
-}
+  }
 
-.tarot-card {
+  /* --- PATTERN 5: TAROT CARD MANUSCRIPT DISPLAY --- */
+  .tarot-card {
     display: none;
     grid-template-columns: 1fr;
     gap: 2.5rem;
-}
+  }
 
-@media (min-width: 640px) {
+  @media (min-width: 640px) {
     .tarot-card {
-        grid-template-columns: 220px 1fr;
+      grid-template-columns: 220px 1fr;
     }
-}
+  }
 
-.card-image-wrapper {
+  .card-image-wrapper {
     width: 100%;
     height: 330px;
     overflow: hidden;
@@ -302,100 +312,555 @@ footer {
     display: flex;
     justify-content: center;
     align-items: center;
-}
+  }
 
-.placeholder-wrapper {
+  .placeholder-wrapper {
     background: linear-gradient(135deg, #efece6, #dfdbd3);
     border: 1px dashed rgba(95, 95, 94, 0.4);
-}
+  }
 
-.placeholder-glyph {
+  .placeholder-glyph {
     font-size: 4rem;
     opacity: 0.5;
-}
+  }
 
-.tarot-image {
+  .tarot-image {
     width: 100%;
     height: 100%;
     object-fit: cover;
-}
+  }
 
-.card-visual h2 {
+  .card-visual h2 {
     font-size: 1.6rem;
     margin: 1.5rem 0 0.25rem 0;
     text-align: center;
-}
+  }
 
-.card-number {
+  .card-number {
     font-family: var(--font-accent-serif);
     font-style: italic;
     color: var(--accent-warm);
     display: block;
     text-align: center;
-}
+  }
 
-.card-details h3 {
+  .card-details h3 {
     font-size: 1.4rem;
     border-bottom: 1px solid rgba(95, 95, 94, 0.2);
     padding-bottom: 6px;
     margin-bottom: 1rem;
-}
+  }
 
-.card-details h3:not(:first-child) {
+  .card-details h3:not(:first-child) {
     margin-top: 2rem;
-}
+  }
 
-.attributes-grid {
+  .attributes-grid {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
-}
+  }
 
-.attribute-tag {
+  /* Component Specific Token Implementation */
+  .attribute-tag {
+    --tag-border: rgba(95, 95, 94, 0.3);
     font-family: var(--font-accent-serif);
     font-style: italic;
     background-color: var(--bg-primary);
-    border: 1px solid rgba(95, 95, 94, 0.3);
+    border: 1px solid var(--tag-border);
     color: var(--accent-primary);
     padding: 6px 14px;
     border-radius: 4px;
     font-weight: bold;
-}
+  }
 
-.selector-menu .btn-clear {
-    border: 1px dashed rgba(95, 95, 94, 0.4);
+  /* --- PATTERN 6: ACADEMIC & CITATION FOOTER --- */
+  footer {
+    border-top: 1px solid rgba(95, 95, 94, 0.2);
+    padding: 3rem 2rem;
+    background-color: var(--bg-secondary);
+    margin-top: auto;
+  }
+
+  .footer-content {
+    max-width: 1000px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  @media (min-width: 768px) {
+    .footer-content {
+      flex-direction: row;
+      justify-content: space-between;
+    }
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 2rem;
+  }
+
+  .footer-links a {
+    font-family: var(--font-accent-serif);
+    font-style: italic;
     color: var(--text-muted);
+    text-decoration: none;
+    font-size: 1rem;
+    transition: color 0.2s ease;
+    }
+    .copyright {
+        font-size: 0.9rem;
+        color: var(--text-muted);
+        margin: 0;
+    }
 }
+/* ==========================================================================
+   4. INTERACTIVE GLOBAL STATES & CONTROLLERS
+   ========================================================================== */
+@layer states {
+  /* State Control Router Mechanics (Radio Hiders) */
+  .state-radio {
+    display: none !important;
+  }
 
-/* --------------------------------------------------------------------------
-   STATE CONTROLLER COUPLING ROUTERS
--------------------------------------------------------------------------- */
-#card-clear:checked ~ .deck-layout .frame-clear,
-#card-00:checked ~ .deck-layout .frame-00,
-#card-01:checked ~ .deck-layout .btn-01,
-#card-02:checked ~ .deck-layout .frame-02,
-#card-03:checked ~ .deck-layout .frame-03,
-#card-04:checked ~ .deck-layout .frame-04,
-#card-05:checked ~ .deck-layout .frame-05,
-#card-06:checked ~ .deck-layout .frame-06,
-#card-07:checked ~ .deck-layout .frame-07,
-#card-08:checked ~ .deck-layout .frame-08,
-#card-09:checked ~ .deck-layout .frame-09,
-#card-10:checked ~ .deck-layout .frame-10 { display: grid; }
+  /* Interactive Navigation Loops */
+  .nav-link:hover, 
+  .nav-link:focus {
+    color: var(--accent-warm);
+    outline: none;
+  }
 
-#card-clear:checked ~ .deck-layout .btn-clear,
-#card-00:checked ~ .deck-layout .btn-00,
-#card-01:checked ~ .deck-layout .btn-01,
-#card-02:checked ~ .deck-layout .btn-02,
-#card-03:checked ~ .deck-layout .btn-03,
-#card-04:checked ~ .deck-layout .btn-04,
-#card-05:checked ~ .deck-layout .btn-05,
-#card-06:checked ~ .deck-layout .btn-06,
-#card-07:checked ~ .deck-layout .btn-07,
-#card-08:checked ~ .deck-layout .btn-08,
-#card-09:checked ~ .deck-layout .btn-09,
-#card-10:checked ~ .deck-layout .btn-10 {
+  .nav-link.active {
+    color: var(--accent-primary);
+    border-bottom: 2px solid var(--accent-primary);
+  }
+
+  /* Parchment Card State Transformations */
+  .portal-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--accent-warm);
+    box-shadow: 0 8px 20px rgba(217, 130, 43, 0.08);
+  }
+
+  .portal-card:hover h2 {
+    color: var(--accent-warm);
+  }
+
+  .portal-card:hover .card-action {
+    color: var(--accent-warm);
+  }
+
+  /* Selector Workspace Label Controls */
+  .selector-menu label:hover {
+    border-color: var(--accent-warm);
+    color: var(--accent-warm);
+  }
+
+  /* Footer Links Hover states */
+  .footer-links a:hover {
+    color: var(--accent-warm);
+  }
+
+  /* --------------------------------------------------------------------------
+     STATE CONTROLLER COUPLING ROUTERS
+     -------------------------------------------------------------------------- */
+  #card-clear:checked ~ .deck-layout .frame-clear,
+  #card-00:checked ~ .deck-layout .frame-00,
+  #card-01:checked ~ .deck-layout .frame-01,
+  #card-02:checked ~ .deck-layout .frame-02,
+  #card-03:checked ~ .deck-layout .frame-03,
+  #card-04:checked ~ .deck-layout .frame-04,
+  #card-05:checked ~ .deck-layout .frame-05,
+  #card-06:checked ~ .deck-layout .frame-06,
+  #card-07:checked ~ .deck-layout .frame-07,
+  #card-08:checked ~ .deck-layout .frame-08,
+  #card-09:checked ~ .deck-layout .frame-09,
+  #card-10:checked ~ .deck-layout .frame-10 {
+    display: grid;
+  }
+
+  #card-clear:checked ~ .deck-layout .btn-clear,
+  #card-00:checked ~ .deck-layout .btn-00,
+  #card-01:checked ~ .deck-layout .btn-01,
+  #card-02:checked ~ .deck-layout .btn-02,
+  #card-03:checked ~ .deck-layout .btn-03,
+  #card-04:checked ~ .deck-layout .btn-04,
+  #card-05:checked ~ .deck-layout .btn-05,
+  #card-06:checked ~ .deck-layout .btn-06,
+  #card-07:checked ~ .deck-layout .btn-07,
+  #card-08:checked ~ .deck-layout .btn-08,
+  #card-09:checked ~ .deck-layout .btn-09,
+  #card-10:checked ~ .deck-layout .btn-10 {
     background-color: var(--accent-primary);
     color: var(--bg-primary);
     border-color: var(--accent-primary);
+  }
+}
+
+/* ==========================================================================
+   5. PURPOSEFUL UTILITIES
+   ========================================================================== */
+@layer utilities {
+  /* 3 Core Layout Helper Utilities required by your rubric */
+  .u-text-center {
+    text-align: center !important;
+  }
+
+  .u-spacer-bottom-lg {
+    margin-bottom: 3.5rem !important;
+  }
+
+  .u-hide-accessible {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+  }
+}
+
+/* ==========================================================================
+   6. PRINT MEDIA LAYOUT ARCHITECTURE
+   ========================================================================== */
+@media print {
+  body {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+    font-size: 11pt;
+  }
+
+  /* Drop interactive tabs and background image canvas artifacts */
+  .global-parchment-backdrop,
+  .site-header,
+  .selector-menu,
+  .state-radio,
+  .card-action {
+    display: none !important;
+  }
+
+  main {
+    max-width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  .deck-layout {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Force display frames to reveal all manuscript text layers on page prints */
+  .display-frame {
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+  }
+/* ==========================================================================
+   4. INTERACTIVE GLOBAL STATES & CONTROLLERS
+   ========================================================================== */
+@layer states {
+  /* State Control Router Mechanics (Radio Hiders) */
+  .state-radio {
+    display: none !important;
+  }
+
+  /* Interactive Navigation Loops */
+  .nav-link:hover, 
+  .nav-link:focus {
+    color: var(--accent-warm);
+    outline: none;
+  }
+
+  .nav-link.active {
+    color: var(--accent-primary);
+    border-bottom: 2px solid var(--accent-primary);
+  }
+
+  /* Parchment Card State Transformations */
+  .portal-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--accent-warm);
+    box-shadow: 0 8px 20px rgba(217, 130, 43, 0.08);
+  }
+
+  .portal-card:hover h2 {
+    color: var(--accent-warm);
+  }
+
+  .portal-card:hover .card-action {
+    color: var(--accent-warm);
+  }
+
+  /* Selector Workspace Label Controls */
+  .selector-menu label:hover {
+    border-color: var(--accent-warm);
+    color: var(--accent-warm);
+  }
+
+  /* Footer Links Hover states */
+  .footer-links a:hover {
+    color: var(--accent-warm);
+  }
+
+  /* --------------------------------------------------------------------------
+     STATE CONTROLLER COUPLING ROUTERS
+     -------------------------------------------------------------------------- */
+  #card-clear:checked ~ .deck-layout .frame-clear,
+  #card-00:checked ~ .deck-layout .frame-00,
+  #card-01:checked ~ .deck-layout .frame-01,
+  #card-02:checked ~ .deck-layout .frame-02,
+  #card-03:checked ~ .deck-layout .frame-03,
+  #card-04:checked ~ .deck-layout .frame-04,
+  #card-05:checked ~ .deck-layout .frame-05,
+  #card-06:checked ~ .deck-layout .frame-06,
+  #card-07:checked ~ .deck-layout .frame-07,
+  #card-08:checked ~ .deck-layout .frame-08,
+  #card-09:checked ~ .deck-layout .frame-09,
+  #card-10:checked ~ .deck-layout .frame-10 {
+    display: grid;
+  }
+
+  #card-clear:checked ~ .deck-layout .btn-clear,
+  #card-00:checked ~ .deck-layout .btn-00,
+  #card-01:checked ~ .deck-layout .btn-01,
+  #card-02:checked ~ .deck-layout .btn-02,
+  #card-03:checked ~ .deck-layout .btn-03,
+  #card-04:checked ~ .deck-layout .btn-04,
+  #card-05:checked ~ .deck-layout .btn-05,
+  #card-06:checked ~ .deck-layout .btn-06,
+  #card-07:checked ~ .deck-layout .btn-07,
+  #card-08:checked ~ .deck-layout .btn-08,
+  #card-09:checked ~ .deck-layout .btn-09,
+  #card-10:checked ~ .deck-layout .btn-10 {
+    background-color: var(--accent-primary);
+    color: var(--bg-primary);
+    border-color: var(--accent-primary);
+  }
+}
+
+/* ==========================================================================
+   5. PURPOSEFUL UTILITIES
+   ========================================================================== */
+@layer utilities {
+  /* 3 Core Layout Helper Utilities required by your rubric */
+  .u-text-center {
+    text-align: center !important;
+  }
+
+  .u-spacer-bottom-lg {
+    margin-bottom: 3.5rem !important;
+  }
+
+  .u-hide-accessible {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+  }
+}
+
+/* ==========================================================================
+   6. PRINT MEDIA LAYOUT ARCHITECTURE
+   ========================================================================== */
+@media print {
+  body {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+    font-size: 11pt;
+  }
+
+  /* Drop interactive tabs and background image canvas artifacts */
+  .global-parchment-backdrop,
+  .site-header,
+  .selector-menu,
+  .state-radio,
+  .card-action {
+    display: none !important;
+  }
+
+  main {
+    max-width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  .deck-layout {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Force display frames to reveal all manuscript text layers on page prints */
+  .display-frame {
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+  }
+/* ==========================================================================
+   4. INTERACTIVE GLOBAL STATES & CONTROLLERS
+   ========================================================================== */
+@layer states {
+  /* State Control Router Mechanics (Radio Hiders) */
+  .state-radio {
+    display: none !important;
+  }
+
+  /* Interactive Navigation Loops */
+  .nav-link:hover, 
+  .nav-link:focus {
+    color: var(--accent-warm);
+    outline: none;
+  }
+
+  .nav-link.active {
+    color: var(--accent-primary);
+    border-bottom: 2px solid var(--accent-primary);
+  }
+
+  /* Parchment Card State Transformations */
+  .portal-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--accent-warm);
+    box-shadow: 0 8px 20px rgba(217, 130, 43, 0.08);
+  }
+
+  .portal-card:hover h2 {
+    color: var(--accent-warm);
+  }
+
+  .portal-card:hover .card-action {
+    color: var(--accent-warm);
+  }
+
+  /* Selector Workspace Label Controls */
+  .selector-menu label:hover {
+    border-color: var(--accent-warm);
+    color: var(--accent-warm);
+  }
+
+  /* Footer Links Hover states */
+  .footer-links a:hover {
+    color: var(--accent-warm);
+  }
+
+  /* --------------------------------------------------------------------------
+     STATE CONTROLLER COUPLING ROUTERS
+     -------------------------------------------------------------------------- */
+  #card-clear:checked ~ .deck-layout .frame-clear,
+  #card-00:checked ~ .deck-layout .frame-00,
+  #card-01:checked ~ .deck-layout .frame-01,
+  #card-02:checked ~ .deck-layout .frame-02,
+  #card-03:checked ~ .deck-layout .frame-03,
+  #card-04:checked ~ .deck-layout .frame-04,
+  #card-05:checked ~ .deck-layout .frame-05,
+  #card-06:checked ~ .deck-layout .frame-06,
+  #card-07:checked ~ .deck-layout .frame-07,
+  #card-08:checked ~ .deck-layout .frame-08,
+  #card-09:checked ~ .deck-layout .frame-09,
+  #card-10:checked ~ .deck-layout .frame-10 {
+    display: grid;
+  }
+
+  #card-clear:checked ~ .deck-layout .btn-clear,
+  #card-00:checked ~ .deck-layout .btn-00,
+  #card-01:checked ~ .deck-layout .btn-01,
+  #card-02:checked ~ .deck-layout .btn-02,
+  #card-03:checked ~ .deck-layout .btn-03,
+  #card-04:checked ~ .deck-layout .btn-04,
+  #card-05:checked ~ .deck-layout .btn-05,
+  #card-06:checked ~ .deck-layout .btn-06,
+  #card-07:checked ~ .deck-layout .btn-07,
+  #card-08:checked ~ .deck-layout .btn-08,
+  #card-09:checked ~ .deck-layout .btn-09,
+  #card-10:checked ~ .deck-layout .btn-10 {
+    background-color: var(--accent-primary);
+    color: var(--bg-primary);
+    border-color: var(--accent-primary);
+  }
+}
+
+/* ==========================================================================
+   5. PURPOSEFUL UTILITIES
+   ========================================================================== */
+@layer utilities {
+  /* 3 Core Layout Helper Utilities required by your rubric */
+  .u-text-center {
+    text-align: center !important;
+  }
+
+  .u-spacer-bottom-lg {
+    margin-bottom: 3.5rem !important;
+  }
+
+  .u-hide-accessible {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+  }
+}
+
+/* ==========================================================================
+   6. PRINT MEDIA LAYOUT ARCHITECTURE
+   ========================================================================== */
+@media print {
+  body {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+    font-size: 11pt;
+  }
+
+  /* Drop interactive tabs and background image canvas artifacts */
+  .global-parchment-backdrop,
+  .site-header,
+  .selector-menu,
+  .state-radio,
+  .card-action {
+    display: none !important;
+  }
+
+  main {
+    max-width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  .deck-layout {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Force display frames to reveal all manuscript text layers on page prints */
+  .display-frame {
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+  }
+
+  .tarot-card {
+    display: grid !important;
+    page-break-inside: avoid;
+    margin-bottom: 4rem;
+  }
+
+  .site-description, 
+  .portal-card {
+    background: transparent !important;
+    border: 1px solid #000000 !important;
+    page-break-inside: avoid;
+    box-shadow: none !important;
+  }
 }
