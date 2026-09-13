@@ -139,7 +139,7 @@
         left: 0;
         width: 100vw;
         height: 100vh;
-        
+        background-image: url('https://upload.wikimedia.org/wikipedia/commons/1/1e/Petrarch-triumph-vainglory-bnf-lat-6069F-italy-14th.jpg?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=original');
         background-size: cover;
         background-position: right 15% top 10%;
         background-repeat: no-repeat;
@@ -150,6 +150,7 @@
         will-change: transform;
     }
 
+    /* CRITERION: Responsive foundation via logical properties */
     .site-index {
         inline-size: 100%;
         max-inline-size: var(--layout-max-width);
@@ -170,7 +171,7 @@
 }
 
 /* ==========================================================================
-   4. COMPONENT PATTERNS LAYER
+   4. COMPONENT PATTERNS LAYER (PART 1)
    ========================================================================== */
 @layer components {
     /* PATTERN 1: NAVIGATION HEADER */
@@ -184,9 +185,10 @@
     }
 
     .header-container {
-        max-width: var(--layout-max-width);
-        margin: 0 auto;
-        padding: var(--space-md) var(--space-lg);
+        max-inline-size: var(--layout-max-width);
+        margin-inline: auto;
+        padding-block: var(--space-md);
+        padding-inline: var(--space-lg);
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -221,7 +223,7 @@
     /* PATTERN 2: CHAPTER PORTAL INTENTIONAL GRID (Intrinsic Sizing) */
     .chapter-portal {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(clamp(280px, 20rem, 100%), 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr));
         gap: var(--space-fluid-md);
     }
 
@@ -253,7 +255,7 @@
         color: var(--color-accent-warm);
         font-size: 0.95rem;
     }
-
+    
     /* PATTERN 3: ADVANCED SUBGRID SYSTEM DIRECTORY & FALLBACKS */
     .card-index-list {
         list-style: none;
@@ -274,13 +276,13 @@
 
     @supports (grid-template-rows: subgrid) {
         .card-index-list {
-            grid-template-columns: 1fr;
+            grid-auto-rows: max-content;
         }
         .card-index-list > li {
             grid-row: span 3;
             grid-template-rows: subgrid;
-            background-color: transparent;
-            padding: 0;
+            background-color: var(--color-bg-secondary);
+            padding: var(--space-sm);
         }
     }
 
@@ -300,7 +302,7 @@
         gap: var(--space-xs);
     }
 
-    @container content-wrapper (min-width: 600px) {
+    @container content-wrapper (inline-size > 600px) {
         .historical-note {
             display: grid;
             grid-template-columns: fit-content(120px) 1fr;
@@ -325,7 +327,7 @@
         margin-bottom: var(--space-lg);
         padding: var(--space-md);
         background-color: rgba(244, 240, 230, 0.3);
-        border-left: 3px solid var(--color-accent-primary);
+        border-inline-start: 3px solid var(--color-accent-primary);
     }
 
     cite {
@@ -345,8 +347,8 @@
 
     /* PATTERN 6: HISTORICAL DATA INTERFACE TABLES */
     table {
-        width: 100%;
-        margin: 2.5rem 0;
+        inline-size: 100%;
+        margin-block: 2.5rem;
         font-size: 0.95rem;
         background-color: rgba(244, 240, 230, 0.5);
         border-radius: var(--border-radius-sm);
@@ -379,13 +381,14 @@
     footer {
         border-top: 1px solid rgba(43, 43, 42, 0.1);
         background-color: var(--color-bg-secondary);
-        margin-top: auto;
+        margin-block-start: auto;
     }
 
     .site-footer {
-        max-width: var(--layout-max-width);
-        margin: 0 auto;
-        padding: 2.5rem var(--space-lg);
+        max-inline-size: var(--layout-max-width);
+        margin-inline: auto;
+        padding-block: 2.5rem;
+        padding-inline: var(--space-lg);
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -395,7 +398,6 @@
     }
 
     .copyright { color: var(--color-text-muted); margin-bottom: 0; }
-
     .footer-links { display: flex; gap: var(--space-md); }
 
     .footer-links a {
@@ -414,7 +416,6 @@
     .u-margin-bottom-none { margin-bottom: 0 !important; }
     .u-hide-screen { display: none !important; }
 
-    /* Interactive States & Micro-Animation Filters */
     .nav-link:hover,
     .footer-links a:hover {
         color: var(--color-accent-warm);
@@ -438,7 +439,6 @@
         opacity: 0.5;
     }
 
-    /* USER PREFERENCES ACCESSIBILITY: REDUCED MOTION PROFILE RESET */
     @media (prefers-reduced-motion: reduce) {
         *, ::before, ::after {
             animation-duration: 0.01ms !important;
@@ -456,7 +456,7 @@
    6. RESPONSIVE BREAKPOINTS OVERRIDES (CONTENT-DRIVEN BREAKPOINTS)
    ========================================================================== */
 @layer overrides {
-    @media (max-width: 768px) {
+    @media (max-width: 48rem) {
         .header-container, .site-footer {
             flex-direction: column;
             text-align: center;
