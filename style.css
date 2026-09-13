@@ -1,372 +1,499 @@
 /* ==========================================================================
-   0. DESIGN SYSTEM TOKENS & TYPOGRAPHY DEFINITIONS
+   A. CASCADE LAYERS INITIALIZATION
    ========================================================================== */
-@import url('https://fonts.googleapis.com/css2?family=IM+Fell+Great+Primer+SC&family=IM+Fell+Great+Primer:ital@0;1&family=Lora:ital,wght@0,400..700;1,400..700&display=swap');
-
-:root {
-    /* Color Palette */
-    --bg-primary: #fcfaf2;        /* Vintage Warm Cream canvas */
-    --bg-secondary: #f4f0e6;      /* Muted Parchment container blocks */
-    --text-primary: #2b2b2a;      /* High-Contrast Charcoal for reading */
-    --text-muted: #5f5f5e;        /* Faded Ink for subtext layers */
-    --accent-primary: #1b4d3e;    /* Deep Forest Jade for main accents */
-    --accent-warm: #9b4e44;       /* Antique Document Russet Red for hover states */
-
-    /* Typography Font Stacks */
-    --font-heading: "IM Fell Great Primer SC", Georgia, serif;
-    --font-accent-serif: "IM Fell Great Primer", Georgia, serif;
-    --font-body: "Lora", Georgia, serif;
-    
-    /* Layout Spacing */
-    --max-width: 1100px;
-}
+@import url('https://fonts.googleapis.com/css2?family=Aleo:wght@700&family=IM+Fell+English+SC&family=Lato:ital,wght@0,400;0,700;1,400&display=swap');
+@layer reset, base, layout, components, utilities, overrides;
 
 /* ==========================================================================
-   1. GLOBAL SYSTEM RESETS & BASE LAYOUT
+   0. DESIGN SYSTEM TOKENS (GLOBAL CUSTOM PROPERTIES)
    ========================================================================== */
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
+@layer base {
+    :root {
+        /* Color Palette Tokens */
+        --color-bg-primary: #fcfaf2;        /* Vintage Warm Cream canvas */
+        --color-bg-secondary: #f4f0e6;      /* Muted Parchment container blocks */
+        --color-text-primary: #2b2b2a;      /* High-Contrast Charcoal for reading */
+        --color-text-muted: #5f5f5e;        /* Faded Ink for subtext layers */
+        --color-accent-primary: #1b4d3e;    /* Deep Forest Jade for main accents */
+        --color-accent-warm: #9b4e44;       /* Antique Document Russet Red */
+        --color-focus-ring: rgba(155, 78, 68, 0.6);
 
-body {
-    font-family: var(--font-body);
-    background-color: var(--bg-primary);
-    color: var(--text-primary);
-    line-height: 1.7;
-    min-height: 100vh;
-}
+        /* Typography Font Stacks */
+        --font-heading: "IM Fell Great Primer SC", Georgia, serif;
+        --font-accent-serif: "IM Fell Great Primer", Georgia, serif;
+        --font-body: "Lora", Georgia, serif;
 
-.global-parchment-backdrop {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    position: relative;
-}
+        /* Fluid Typography Scales */
+        --font-size-base: clamp(1rem, 0.95rem + 0.25vw, 1.25rem);
+        --font-size-h1: clamp(2.2rem, 1.8rem + 2vw, 3.8rem);
+        --font-size-h2: clamp(1.5rem, 1.3rem + 1vw, 2.2rem);
 
-.global-parchment-backdrop::before {
-    content: "";
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-image: url('https://upload.wikimedia.org/wikipedia/commons/1/1e/Petrarch-triumph-vainglory-bnf-lat-6069F-italy-14th.jpg?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=original');
-    background-size: cover;
-    background-position: right 15% top 10%; 
-    background-repeat: no-repeat;
-    mix-blend-mode: multiply; 
-    opacity: 0.12; /* Softened slightly so black text remains accessible and readable */
-    pointer-events: none; 
-    z-index: -1; 
-}
+        /* Fluid Spacing Scale via Logical Properties */
+        --space-xs: 0.5rem;
+        --space-sm: 1rem;
+        --space-md: 1.5rem;
+        --space-lg: 2rem;
+        --space-xl: 4rem;
+        --space-fluid-sm: clamp(0.75rem, 0.5rem + 1vw, 1.25rem);
+        --space-fluid-md: clamp(1.5rem, 1.2rem + 1.5vw, 2.5rem);
+        --space-fluid-lg: clamp(2.5rem, 2rem + 3vw, 4.5rem);
 
-/* ==========================================================================
-   2. SITE NAVIGATION HEADER
-   ========================================================================== */
-.site-header {
-    border-bottom: 1px solid rgba(27, 77, 62, 0.15);
-    background-color: rgba(252, 250, 242, 0.85);
-    backdrop-filter: blur(8px);
-    position: sticky;
-    top: 0;
-    z-index: 100;
-}
+        /* Shape & Boundary Constraints */
+        --border-radius-sm: 2px;
+        --border-radius-md: 4px;
+        --layout-max-width: 1100px;
+        --container-normal-width: 76ch;    /* Optimal readable line-length */
+        
+        /* Animation Transitions */
+        --transition-speed-fast: 0.2s;
+        --transition-ease-standard: ease;
 
-.header-container {
-    max-width: var(--max-width);
-    margin: 0 auto;
-    padding: 1.5rem 2rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 1rem;
-}
-
-.logo-link {
-    text-decoration: none;
-    color: var(--accent-primary);
-    font-family: var(--font-heading);
-    font-size: 1.6rem;
-    letter-spacing: 1px;
-}
-
-.site-nav ul {
-    list-style: none;
-    display: flex;
-    gap: 1.5rem;
-    flex-wrap: wrap;
-}
-
-.nav-link {
-    text-decoration: none;
-    color: var(--text-primary);
-    font-family: var(--font-heading);
-    font-size: 0.95rem;
-    transition: color 0.2s ease;
-}
-
-.nav-link:hover {
-    color: var(--accent-warm);
-}
-
-/* ==========================================================================
-   3. ARCHIVAL HOMEPAGE HUB (index.html)
-   ========================================================================== */
-.site-index {
-    max-width: var(--max-width);
-    margin: 4rem auto;
-    padding: 0 2rem;
-    flex: 1;
-}
-
-.site-title h1 {
-    font-family: var(--font-heading);
-    font-size: 3.5rem;
-    color: var(--accent-primary);
-    text-align: center;
-    margin-bottom: 2rem;
-}
-
-.site-description {
-    max-width: 750px;
-    margin: 0 auto 4rem auto;
-    text-align: center;
-    font-size: 1.15rem;
-    color: var(--text-muted);
-}
-
-/* Chapter Portal Grid Configuration */
-.chapter-portal {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
-}
-
-.chapter {
-    background-color: var(--bg-secondary);
-    border: 1px solid rgba(43, 43, 42, 0.1);
-    padding: 2.5rem;
-    text-decoration: none;
-    color: var(--text-primary);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
-}
-
-.chapter h2 {
-    font-family: var(--font-heading);
-    font-size: 1.4rem;
-    margin-bottom: 1.5rem;
-    color: var(--accent-primary);
-}
-
-.card-action {
-    font-family: var(--font-accent-serif);
-    font-style: italic;
-    color: var(--accent-warm);
-    font-size: 0.95rem;
-}
-
-.chapter:hover {
-    transform: translateY(-4px);
-    border-color: var(--accent-warm);
-    box-shadow: 0 8px 24px rgba(155, 78, 68, 0.08);
-}
-
-/* ==========================================================================
-   4. CHRONICLE PAGE PATTERNS (Chapters 1 - 5)
-   ========================================================================== */
-.chapter-page {
-    max-width: 800px; /* Thinner line length optimized for maximum legibility */
-    margin: 4rem auto;
-    padding: 0 2rem;
-    flex: 1;
-}
-
-.title-section {
-    margin-bottom: 4rem;
-    border-bottom: 2px double rgba(27, 77, 62, 0.2);
-    padding-bottom: 2rem;
-}
-
-.title-section h1 {
-    font-family: var(--font-heading);
-    font-size: 2.8rem;
-    color: var(--accent-primary);
-    line-height: 1.2;
-    margin-bottom: 1.5rem;
-}
-
-.title-section p {
-    font-family: var(--font-accent-serif);
-    font-style: italic;
-    color: var(--text-muted);
-    font-size: 1.1rem;
-}
-
-.content-section {
-    margin-bottom: 4rem;
-}
-
-.content-section h2 {
-    font-family: var(--font-heading);
-    font-size: 1.8rem;
-    color: var(--accent-primary);
-    margin-bottom: 1.5rem;
-}
-
-.content-section h3 {
-    font-family: var(--font-heading);
-    font-size: 1.25rem;
-    margin: 1.5rem 0 0.5rem 0;
-}
-
-/* Paragraph and Typography Spacing Mechanics */
-p {
-    margin-bottom: 1.5rem;
-}
-
-strong {
-    color: var(--accent-primary);
-}
-
-/* Semantic Unordered & Ordered Document Lists */
-ul, ol {
-    margin-bottom: 2rem;
-    padding-left: 1.5rem;
-}
-
-li {
-    margin-bottom: 0.75rem;
-}
-
-li ul, li ol {
-    margin-top: 0.75rem;
-    margin-bottom: 0.5rem;
-}
-
-/* Data Tables Optimization */
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 2.5rem 0;
-    font-size: 0.95rem;
-    background-color: rgba(244, 240, 230, 0.5);
-}
-
-th, td {
-    padding: 1rem;
-    text-align: left;
-    border-bottom: 1px solid rgba(43, 43, 42, 0.1);
-}
-
-th {
-    font-family: var(--font-heading);
-    color: var(--accent-primary);
-    background-color: var(--bg-secondary);
-    text-transform: uppercase;
-    font-size: 0.85rem;
-    letter-spacing: 0.5px;
-}
-
-/* Image Assets System */
-.card-image-placeholder, .card-image {
-    width: 100%;
-    max-width: 250px;
-    height: 380px;
-    background-color: var(--bg-secondary);
-    border: 1px dashed var(--accent-primary);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 1.5rem 0;
-    font-family: var(--font-accent-serif);
-    font-style: italic;
-    color: var(--text-muted);
-}
-
-/* Navigation Links Footer */
-.sub-page-nav, .sub-page-section {
-    margin-top: 5rem;
-    padding-top: 2rem;
-    border-top: 1px solid rgba(43, 43, 42, 0.1);
-    display: flex;
-    gap: 1.5rem;
-}
-
-.card-link {
-    display: inline-block;
-    text-decoration: none;
-    font-family: var(--font-heading);
-    color: var(--accent-warm);
-    font-size: 1.1rem;
-    transition: transform 0.2s ease;
-}
-
-.card-link:hover {
-    transform: translateX(4px);
-}
-
-/* ==========================================================================
-   5. ARCHIVAL FOOTER SYSTEM
-   ========================================================================== */
-footer {
-    border-top: 1px solid rgba(43, 43, 42, 0.1);
-    background-color: var(--bg-secondary);
-    margin-top: auto;
-}
-
-.site-footer {
-    max-width: var(--max-width);
-    margin: 0 auto;
-    padding: 2.5rem 2rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 1.5rem;
-    font-size: 0.9rem;
-}
-
-.copyright {
-    color: var(--text-muted);
-}
-
-.footer-links {
-    display: flex;
-    gap: 1.5rem;
-}
-
-.footer-links a {
-    text-decoration: none;
-    color: var(--text-primary);
-    font-family: var(--font-heading);
-    transition: color 0.2s ease;
-}
-
-.footer-links a:hover {
-    color: var(--accent-warm);
-}
-
-/* ==========================================================================
-   6. RESPONSIVE MEDIA QUERIES
-   ========================================================================== */
-@media (max-width: 768px) {
-    .header-container, .site-footer {
-        flex-direction: column;
-        text-align: center;
+        /* Component-Specific Scopes */
+        --chapter-card-bg: var(--color-bg-secondary);
+        --chapter-card-border: rgba(43, 43, 42, 0.1);
+        --chapter-card-shadow: 0 4px 12px rgba(43, 43, 42, 0.03);
+        --chapter-card-hover-shadow: 0 8px 24px rgba(155, 78, 68, 0.08);
+        --header-blur-bg: rgba(252, 250, 242, 0.85);
     }
-    
-    .site-title h1 {
-        font-size: 2.5rem;
+}
+
+/* ==========================================================================
+   1. RESET LAYER
+   ========================================================================== */
+@layer reset {
+    *, *::before, *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
     }
-    
-    .sub-page-nav {
+
+    html {
+        -webkit-text-size-adjust: 100%;
+        scroll-behavior: smooth;
+    }
+
+    img {
+        display: block;
+        max-width: 100%;
+        height: auto;
+    }
+
+    table {
+        border-collapse: collapse;
+        border-spacing: 0;
+    }
+}
+
+/* ==========================================================================
+   2. BASE LAYER
+   ========================================================================== */
+@layer base {
+    body {
+        font-family: var(--font-body);
+        font-size: var(--font-size-base);
+        background-color: var(--color-bg-primary);
+        color: var(--color-text-primary);
+        line-height: 1.7;
+        min-height: 100vh;
+        -webkit-font-smoothing: antialiased;
+    }
+
+    h1 { font-family: var(--font-heading); font-size: var(--font-size-h1); line-height: 1.1; margin-bottom: var(--space-md); }
+    h2 { font-family: var(--font-heading); font-size: var(--font-size-h2); line-height: 1.2; margin-bottom: var(--space-sm); }
+    h3 { font-family: var(--font-heading); font-size: 1.25rem; margin: 1.5rem 0 0.5rem 0; }
+
+    p { margin-bottom: var(--space-md); }
+    strong { color: var(--color-accent-primary); }
+
+    ul, ol {
+        margin-bottom: var(--space-lg);
+        padding-left: var(--space-md);
+    }
+
+    li { margin-bottom: var(--space-xs); }
+    li ul, li ol { margin-top: var(--space-xs); margin-bottom: var(--space-xs); }
+
+    a:focus-visible,
+    button:focus-visible {
+        outline: 3px solid var(--color-focus-ring);
+        outline-offset: 4px;
+    }
+}
+
+/* ==========================================================================
+   3. STRUCTURAL LAYOUT LAYER
+   ========================================================================== */
+@layer layout {
+    .global-parchment-backdrop {
+        min-height: 100vh;
+        display: flex;
         flex-direction: column;
-        gap: 1rem;
+        position: relative;
+    }
+
+    /* Hardware-Accelerated Isolated Background Manuscript Canvas */
+    .global-parchment-backdrop::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        
+        background-size: cover;
+        background-position: right 15% top 10%;
+        background-repeat: no-repeat;
+        mix-blend-mode: multiply;
+        opacity: 0.12;
+        pointer-events: none;
+        z-index: -1;
+        will-change: transform;
+    }
+
+    .site-index {
+        inline-size: 100%;
+        max-inline-size: var(--layout-max-width);
+        margin-block: var(--space-fluid-lg);
+        margin-inline: auto;
+        padding-inline: var(--space-fluid-md);
+        flex: 1;
+    }
+
+    .chapter-page {
+        inline-size: 100%;
+        max-inline-size: var(--container-normal-width);
+        margin-block: var(--space-fluid-lg);
+        margin-inline: auto;
+        padding-inline: var(--space-fluid-md);
+        flex: 1;
+    }
+}
+
+/* ==========================================================================
+   4. COMPONENT PATTERNS LAYER
+   ========================================================================== */
+@layer components {
+    /* PATTERN 1: NAVIGATION HEADER */
+    .site-header {
+        border-bottom: 1px solid rgba(27, 77, 62, 0.15);
+        background-color: var(--header-blur-bg);
+        backdrop-filter: blur(8px);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+    }
+
+    .header-container {
+        max-width: var(--layout-max-width);
+        margin: 0 auto;
+        padding: var(--space-md) var(--space-lg);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: var(--space-sm);
+    }
+
+    .logo-link {
+        text-decoration: none;
+        color: var(--color-accent-primary);
+        font-family: var(--font-heading);
+        font-size: 1.6rem;
+        letter-spacing: 1px;
+    }
+
+    .site-nav ul {
+        list-style: none;
+        display: flex;
+        gap: var(--space-md);
+        flex-wrap: wrap;
+        margin-bottom: 0;
+    }
+
+    .nav-link {
+        text-decoration: none;
+        color: var(--color-text-primary);
+        font-family: var(--font-heading);
+        font-size: 0.95rem;
+        transition: color var(--transition-speed-fast) var(--transition-ease-standard);
+    }
+
+    /* PATTERN 2: CHAPTER PORTAL INTENTIONAL GRID (Intrinsic Sizing) */
+    .chapter-portal {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(clamp(280px, 20rem, 100%), 1fr));
+        gap: var(--space-fluid-md);
+    }
+
+    .chapter {
+        background-color: var(--chapter-card-bg);
+        border: 1px solid var(--chapter-card-border);
+        box-shadow: var(--chapter-card-shadow);
+        padding: 2.5rem;
+        text-decoration: none;
+        color: var(--color-text-primary);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        border-radius: var(--border-radius-sm);
+        transition: transform var(--transition-speed-fast) var(--transition-ease-standard),
+                    border-color var(--transition-speed-fast) var(--transition-ease-standard),
+                    box-shadow var(--transition-speed-fast) var(--transition-ease-standard);
+    }
+
+    .chapter h2 {
+        font-family: var(--font-heading);
+        color: var(--color-accent-primary);
+        margin-bottom: var(--space-md);
+    }
+
+    .card-action {
+        font-family: var(--font-accent-serif);
+        font-style: italic;
+        color: var(--color-accent-warm);
+        font-size: 0.95rem;
+    }
+
+    /* PATTERN 3: ADVANCED SUBGRID SYSTEM DIRECTORY & FALLBACKS */
+    .card-index-list {
+        list-style: none;
+        padding-inline-start: 0;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
+        gap: var(--space-fluid-md);
+    }
+
+    .card-index-list > li {
+        display: grid;
+        grid-template-rows: auto auto 1fr;
+        gap: var(--space-xs);
+        padding: var(--space-sm);
+        background-color: var(--color-bg-secondary);
+        border-radius: var(--border-radius-sm);
+    }
+
+    @supports (grid-template-rows: subgrid) {
+        .card-index-list {
+            grid-template-columns: 1fr;
+        }
+        .card-index-list > li {
+            grid-row: span 3;
+            grid-template-rows: subgrid;
+            background-color: transparent;
+            padding: 0;
+        }
+    }
+
+    /* PATTERN 4: CONTAINER-QUERY SENSITIVE CALLOUT BOX */
+    .content-section {
+        container-type: inline-size;
+        container-name: content-wrapper;
+        margin-block-end: var(--space-fluid-lg);
+    }
+
+    .historical-note {
+        padding: var(--space-fluid-md);
+        background-color: rgba(244, 240, 230, 0.4);
+        border-inline-start: 4px solid var(--color-accent-primary);
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-xs);
+    }
+
+    @container content-wrapper (min-width: 600px) {
+        .historical-note {
+            display: grid;
+            grid-template-columns: fit-content(120px) 1fr;
+            align-items: baseline;
+            gap: var(--space-md);
+        }
+        
+        .historical-note h3 {
+            margin-block-start: 0;
+            border-inline-end: 1px solid rgba(43, 43, 42, 0.2);
+            padding-inline-end: var(--space-sm);
+        }
+    }
+
+    /* PATTERN 5: ACADEMIC BIBLIOGRAPHY MEDIA STRUCTURE */
+    .bibliography-list {
+        list-style: none;
+        padding-left: 0;
+    }
+
+    .bibliography-list > li {
+        margin-bottom: var(--space-lg);
+        padding: var(--space-md);
+        background-color: rgba(244, 240, 230, 0.3);
+        border-left: 3px solid var(--color-accent-primary);
+    }
+
+    cite {
+        display: block;
+        font-family: var(--font-accent-serif);
+        font-size: 1.1rem;
+        color: var(--color-accent-primary);
+        font-style: normal;
+        margin-bottom: var(--space-xs);
+    }
+
+    .application-note {
+        font-size: 0.95rem;
+        color: var(--color-text-muted);
+        margin-bottom: 0;
+    }
+
+    /* PATTERN 6: HISTORICAL DATA INTERFACE TABLES */
+    table {
+        width: 100%;
+        margin: 2.5rem 0;
+        font-size: 0.95rem;
+        background-color: rgba(244, 240, 230, 0.5);
+        border-radius: var(--border-radius-sm);
+    }
+
+    caption {
+        font-family: var(--font-heading);
+        color: var(--color-accent-primary);
+        font-size: 1.2rem;
+        margin-bottom: var(--space-sm);
+        text-align: left;
+    }
+
+    th, td {
+        padding: var(--space-sm);
+        text-align: left;
+        border-bottom: 1px solid rgba(43, 43, 42, 0.1);
+    }
+
+    th {
+        font-family: var(--font-heading);
+        color: var(--color-accent-primary);
+        background-color: var(--color-bg-secondary);
+        text-transform: uppercase;
+        font-size: 0.85rem;
+        letter-spacing: 0.5px;
+    }
+
+    /* PATTERN 7: FOOTER BLOCKS */
+    footer {
+        border-top: 1px solid rgba(43, 43, 42, 0.1);
+        background-color: var(--color-bg-secondary);
+        margin-top: auto;
+    }
+
+    .site-footer {
+        max-width: var(--layout-max-width);
+        margin: 0 auto;
+        padding: 2.5rem var(--space-lg);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: var(--space-md);
+        font-size: 0.9rem;
+    }
+
+    .copyright { color: var(--color-text-muted); margin-bottom: 0; }
+
+    .footer-links { display: flex; gap: var(--space-md); }
+
+    .footer-links a {
+        text-decoration: none;
+        color: var(--color-text-primary);
+        font-family: var(--font-heading);
+        transition: color var(--transition-speed-fast) var(--transition-ease-standard);
+    }
+}
+
+/* ==========================================================================
+   5. UTILITIES & COMPONENT STATES LAYER
+   ========================================================================== */
+@layer utilities {
+    .u-text-center { text-align: center !important; }
+    .u-margin-bottom-none { margin-bottom: 0 !important; }
+    .u-hide-screen { display: none !important; }
+
+    /* Interactive States & Micro-Animation Filters */
+    .nav-link:hover,
+    .footer-links a:hover {
+        color: var(--color-accent-warm);
+    }
+
+    .chapter:hover {
+        transform: translateY(-4px);
+        border-color: var(--color-accent-warm);
+        box-shadow: var(--chapter-card-hover-shadow);
+    }
+
+    .nav-link[aria-current="page"] {
+        color: var(--color-accent-primary);
+        border-bottom: 2px solid var(--color-accent-primary);
+        padding-bottom: var(--space-xs);
+    }
+
+    .card-link[aria-disabled="true"] {
+        color: var(--color-text-muted);
+        pointer-events: none;
+        opacity: 0.5;
+    }
+
+    /* USER PREFERENCES ACCESSIBILITY: REDUCED MOTION PROFILE RESET */
+    @media (prefers-reduced-motion: reduce) {
+        *, ::before, ::after {
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01ms !important;
+            scroll-behavior: auto !important;
+        }
+        .chapter:hover {
+            transform: none !important;
+        }
+    }
+}
+
+/* ==========================================================================
+   6. RESPONSIVE BREAKPOINTS OVERRIDES (CONTENT-DRIVEN BREAKPOINTS)
+   ========================================================================== */
+@layer overrides {
+    @media (max-width: 768px) {
+        .header-container, .site-footer {
+            flex-direction: column;
+            text-align: center;
+        }
+        .sub-page-nav {
+            flex-direction: column;
+            gap: var(--space-sm);
+        }
+    }
+}
+
+/* ==========================================================================
+   7. PRINT OPTIMIZATION PROFILE
+   ========================================================================== */
+@media print {
+    .site-header, .sub-page-nav, .footer-links, .global-parchment-backdrop::before {
+        display: none !important;
+    }
+
+    body {
+        background: #ffffff !important;
+        color: #000000 !important;
+        font-size: 12pt;
+    }
+
+    .chapter-page {
+        max-width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    h1, h2, h3, table, tr { page-break-inside: avoid; }
+    cite { font-weight: bold; color: #000000 !important; }
+
+    th {
+        background-color: #f0f0f0 !important;
+        color: #000000 !important;
+        border-bottom: 2px solid #000000 !important;
     }
 }
