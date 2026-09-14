@@ -150,6 +150,20 @@
         will-change: transform;
     }
 
+    .logo-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px; /* Control spacing between the logo image and text */
+        text-decoration: none; /* Keeps links from having ugly underlines */
+    }
+
+    /* Constrain the logo dimension to match standard nav layout sizes */
+    .nav-logo {
+        height: 100px; /* Tweak this value up or down depending on how tall your header is */
+        width: auto;  /* Maintains your perfect square aspect ratio */
+        display: block;
+    }
+
     /* CRITERION: Responsive foundation via logical properties */
     .site-index {
         inline-size: 100%;
