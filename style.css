@@ -159,7 +159,7 @@
 
     /* Constrain the logo dimension to match standard nav layout sizes */
     .nav-logo {
-        height: 44px; /* Tweak this value up or down depending on how tall your header is */
+        height: 55px; /* Tweak this value up or down depending on how tall your header is */
         width: auto;  /* Maintains your perfect square aspect ratio */
         display: block;
     }
